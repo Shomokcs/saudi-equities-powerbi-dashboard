@@ -54,28 +54,24 @@ Structured complex SQL queries against the local database engine to compute core
 ---
 
 ## 🏗️ Architecture & Data Flow
-
-[ Data Source: Saudi Stock Market (yfinance) ]
-                        │
-                        ▼
-       [ Python ETL Pipeline (Google Colab) ]
-         ├── Automated Ingestion & Quality Checks
-         ├── Data Cleansing & Datetime Parsing
-         └── Schema Formatting
-                        │
-                        ▼
-            [ Relational DB (SQLite) ]
-         ├── dim_stocks (Dimension Table)
-         └── fact_prices (Fact Table)
-           │                             │
-           ▼                             ▼
- [ SQL Financial Queries ]      [ Baseline ML (Scikit-Learn) ]
-(Returns, Volatility, Rankings)  (Price Direction Classification)
-           │
-           ▼
-[ Interactive Power BI Dashboard ]
-(Dynamic DAX KPIs, Trends & Slicers)
-
+```mermaid
+flowchart TD
+    A[📈 Saudi Stock Market / yfinance] -->|Raw Financial Data| B(🐍 Python ETL Pipeline & Quality Checks)
+    B -->|Cleaned Structured Data| C[(🗄️ Relational SQLite DB)]
+    
+    C -->|dim_stocks & fact_prices| D[🔍 SQL Financial Analytics]
+    C -->|Historical Prices & Volumes| E[🤖 Baseline Machine Learning]
+    
+    D -->|Aggregated KPIs & Performance| F[📊 Microsoft Power BI Dashboard]
+    E -->|Directional Signals & Insights| F
+    
+    style A fill:#E8EFE6,stroke:#0B4634,stroke-width:2px,color:#000
+    style B fill:#F5F7F5,stroke:#0B4634,stroke-width:2px,color:#000
+    style C fill:#E8EFE6,stroke:#0B4634,stroke-width:2px,color:#000
+    style D fill:#FFFFFF,stroke:#0B4634,stroke-width:1.5px,color:#000
+    style E fill:#FFFFFF,stroke:#0B4634,stroke-width:1.5px,color:#000
+    style F fill:#DCE8D6,stroke:#0B4634,stroke-width:2.5px,color:#0B4634
+```
 ---
 
 ## 🛠️ Tech Stack
@@ -86,26 +82,5 @@ Structured complex SQL queries against the local database engine to compute core
 - **BI & Visualization:** Microsoft Power BI Desktop, DAX
 - **Version Control:** Git, GitHub
 
----
 
-## 🚀 How to Run Locally
 
-### 1. Clone the Repository
-git clone https://github.com/Shomokcs/saudi-equities-powerbi-dashboard.git
-cd saudi-equities-powerbi-dashboard
-
-### 2. Set Up Environment & Dependencies
-pip install -r requirements.txt
-
-### 3. Run ETL & Database Ingestion
-python notebooks/01_etl_pipeline.py
-
-### 4. Open the Power BI Dashboard
-1. Open `powerbi/saudi_equities_dashboard.pbix` in Microsoft Power BI Desktop.
-2. Refresh data connections or explore the pre-loaded interactive visual analytics.
-
----
-
-## 📌 Project Disclaimer & Limitations
-
-This project is developed strictly for **educational and portfolio demonstration purposes**. The technical moving averages and machine learning classifications do not constitute financial advice, market recommendations, or commercial trading signals.
